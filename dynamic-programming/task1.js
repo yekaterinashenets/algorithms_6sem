@@ -14,7 +14,7 @@ require('readline')
     .on('line', (line) => inputData.push(line.split(' ').map( (item) => parseInt(item, 10))))
     .on('close', () =>  {
         const outFile = fs.openSync('output.txt', 'w'),
-              outData = new Billboard(inputData[0], inputData[1]).findMaximumTotalIncome();
+              outData = new Billboard(inputData[0], inputData[1]).findMaximumTotalIncome().join(' ');
               // inputData[0] - position, inputData[1] - income
         fs.write(outFile, outData);
         process.exit(0);
