@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        td, th {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Method Name</th>
+                <th>Iterations</th>
+                <th>Min Path</th>
+                <th>Min Distance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="greedy">
+                <th id="greedy__name"></th>
+                <th id="greedy__iterations"></th>
+                <th id="greedy__path"></th>
+                <th id="greedy__length"></th>
+            </tr>
+            <tr id="brute-force">
+                <th id="brute-force__name"></th>
+                <th id="brute-force__iterations"></th>
+                <th id="brute-force__path"></th>
+                <th id="brute-force__length"></th>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<script src="js/Salesman.js"></script>
+<script src="js/main.js"></script>
+</html>
