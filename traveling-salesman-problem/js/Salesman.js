@@ -98,11 +98,11 @@ class Salesman {
         this.cntWays  = 0;                             // число итераций
 
         if(this.minWay.length !== this.N){            
-            this.minWay   = new Array(this.N);         
-            this.way      = new Array(this.N);        
+            this.minWay   = new Array(this.N);     // лучший путь     
+            this.way      = new Array(this.N);      // вспомогательный путь 
             for(let i=0; i < this.N; i++)              
                 this.minWay[i] = this.way[i] = i;       
-            this.minLen = this.distance(this.minWay);
+            this.minLen = this.distance(this.minWay);  // длина лучшего пути
         }
         this.maxLen  = 0;                             
         
@@ -135,30 +135,30 @@ class Salesman {
     }
 
     bruteForceInit() {
-        this.total = this.factorial(this.N-1); 
-        for(let i=0; i < this.N; i++) this.way[i] = i;
+        this.total = this.factorial(this.N-1); // число необходимых перестановок
+        for(let i=0; i < this.N; i++) this.way[i] = i; // все города для перестановок
     }
 
     bruteForceTimer() {
-        var num = this.loops;                        
+        var num = this.loops;               // за выполнение таймера         
         do{
-           this.cntWays++;                            
+           this.cntWays++;                            // число итераций
            let len = this.distance(this.way);         
-           if(len < this.minLen){                    
-              this.minLen = len;                      
-              this.minWay = this.copy(this.minWay, this.way);
+           if(len < this.minLen){                    // нашли более короткий путь
+              this.minLen = len;                      // запоминаем кратчайшее растояние
+              this.minWay = this.copy(this.minWay, this.way);  // запоминаем максимальное расстояние
            }
            if(len > this.maxLen) this.maxLen=len;    
         } while(this.nextPermutation(this.way, 1) && --num);
          if(num)    {
              this.stop(); 
          }                      
-         this.outInfo();
+         this.outInfo();                
     }
 
     greedyInit() {
         this.greedyJ = this.last = 0; this.left = 1; 
-        for(var i=0; i < this.N; i++ ) 
+        for(var i=0; i < this.N; i++ )
            this.minWay[i] = this.way[i] = i;
         this.minLen = this.distance(this.way);
     }
@@ -167,30 +167,30 @@ class Salesman {
         let num = this.loops;                 
         do{      
             this.cntWays++;
-           if(this.left < this.N){                  
+           if(this.left < this.N){            // пока не перебрали оставшиеся вершины    
               let min = this.dists[this.last][this.way[this.left]];
-              for(let i=this.left+1; i < this.N; i++)  
+              for(let i=this.left+1; i < this.N; i++)  // ищем ближайшую к last вершину
                  if(this.dists[this.last][this.way[i]] < min){
                     min = this.dists[this.last][this.way[i]];
-                    this.swap(this.way,this.left,i);
+                    this.swap(this.way,this.left,i); // ближайшую переносим в начало
                  }
-              this.greedyD += min;                 
-              this.last = this.way[this.left++];      
+              this.greedyD += min;              // суммируем общую длину пути   
+              this.last = this.way[this.left++];       // берём первую как ближайшую
            }
            else{
-              this.greedyD += this.dists[this.last][this.greedyJ];           
-              if(this.minLen > this.greedyD){ 
-                 this.minLen = this.greedyD;   
+              this.greedyD += this.dists[this.last][this.greedyJ];    // финальный отрезок         
+              if(this.minLen > this.greedyD){  // если длина пути лучшая,
+                 this.minLen = this.greedyD;   // запоминаем ее и путь
                  this.minWay = this.copy(this.minWay, this.way);
               }
-              if( ++this.greedyJ >= this.N ){         
+              if( ++this.greedyJ >= this.N ){          // закончили перебор стартовых вершин
                  this.stop();                         
                  break;                       
               }
-              for(let i=0; i < this.N; i++ )       
-                 this.way[i] = i;                 
-              this.swap(this.way, 0, this.greedyJ); 
-              this.last = this.greedyJ;      
+              for(let i=0; i < this.N; i++ )       // иначе продолжаем
+                 this.way[i] = i;        
+              this.swap(this.way, 0, this.greedyJ); // j-тый город ставим первым 
+              this.last = this.greedyJ;       // последний посещённый город
               this.left = 1; this.greedyD = 0;                         
            }     
         } while(--num);
